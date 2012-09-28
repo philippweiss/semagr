@@ -3,7 +3,7 @@
 	
 	include_once('simple_html_dom.php');
 
-//test commit -a -m with 2 files
+
 	for($i=1; $i<100; $i++){
 
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?C=S&LANG=DE&S=12W&LV=3&L2=S&L3=S&T=&L=&I='.$i.'&JOIN=AND');
