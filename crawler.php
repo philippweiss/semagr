@@ -1,8 +1,53 @@
 <?
 
-	$html = file_get_html('http://www.google.com/');
+	
+	include_once('simple_html_dom.php');
 
-	print_r($html);
+
+	for($i=27; $i<30; $i++){
+
+	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?C=S&LANG=DE&S=12W&LV=3&L2=S&L3=S&T=&L=&I='.$i.'&JOIN=AND');
+
+	if(stripos($html->plaintext, 'Keine Lehrveranstaltungen gefunden!') === false){
 
 
+	$spantext = $html->find('span[class=text]');
+
+	$id =  $spantext[0]->children(0)->children(1)->children(0)->plaintext;
+	$type = $spantext[0]->children(0)->children(1)->children(1)->plaintext;
+	$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
+	$lecturer = $spantext[0]->children(2)->children(0)->children(1);
+	$subject = $spantext[0]->children(2)->children(1)->children(1);
+	$sst = $spantext[0]->children(2)->children(2)->children(1);
+	$language = $spantext[0]->children(2)->children(3)->children(1);
+
+	echo $id.'</br>';
+	echo $type.'</br>';
+	echo $title.'</br>';
+
+	foreach($lecturer->find('a') as $l){
+
+		echo $l->plaintext .'</br>';
+	}
+
+	foreach($subject->find('a') as $s){
+
+		echo $s->plaintext .'</br>';
+	}
+
+	echo $sst.'</br>';
+	echo $language.'</br>';
+
+	echo '</br></br>';
+
+	}
+	else{
+
+		//echo '</br></br>keine lv</br></br>';
+	}
+
+
+
+
+	}
 ?>
