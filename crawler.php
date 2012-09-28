@@ -4,59 +4,71 @@
 	include_once('simple_html_dom.php');
 
 
-	for($i=1; $i<100; $i++){
+	for($i=1; $i<10000; $i++){
 
-	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?C=S&LANG=DE&S=12W&LV=3&L2=S&L3=S&T=&L=&I='.$i.'&JOIN=AND');
+		$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?C=S&LANG=DE&S=12W&LV=3&L2=S&L3=S&T=&L=&I='.$i.'&JOIN=AND');
 
-	if(stripos($html->plaintext, 'Keine Lehrveranstaltungen gefunden!') === false){
-
-
-		$spantext = $html->find('span[class=text]');
-
-		$id =  $spantext[0]->children(0)->children(1)->children(0)->plaintext;
-		$type = $spantext[0]->children(0)->children(1)->children(1)->plaintext;
-		$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
-		$lecturer = $spantext[0]->children(2)->children(0)->children(1);
-		
+		if(stripos($html->plaintext, 'Keine Lehrveranstaltungen gefunden!') === false){
 
 
-		if($spantext[0]->children(2)->children(1)->children(0)->plaintext == 'Planpunkte Bachelor'){
+			$spantext = $html->find('span[class=text]');
 
-			$subject = $spantext[0]->children(2)->children(1)->children(1)->plaintext;
-		}
+			$id =  $spantext[0]->children(0)->children(1)->children(0)->plaintext;
+			$type = $spantext[0]->children(0)->children(1)->children(1)->plaintext;
+			$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
+			
+			
+			$table2 = $spantext[0]->children(2);
+			
 
-		$subject = $spantext[0]->children(2)->children(1)->children(1)
-		$sst = $spantext[0]->children(2)->children(2)->children(1);
-		$language = $spantext[0]->children(2)->children(3)->children(1);
+			foreach($table2->find('td') as $cell){
 
-		echo $id.'</br>';
-		echo $type.'</br>';
-		echo $title.'</br>';
 
-		foreach($lecturer->find('a') as $l){
+				if($cell->plaintext == 'LV-Leiter/in'){
 
-			echo $l->plaintext .'</br>';
-		}
+						$neighbour = $cell->next_sibling();
+						$lecturer = $neighbour;
+				}
+				if($cell->plaintext == 'Planpunkte Bachelor'){
 
-		foreach($subject->find('a') as $s){
+						$neighbour = $cell->next_sibling();
+						$subject = $neighbour;
+				}
+				if($cell->plaintext == 'Semesterstunden'){
 
-			echo $s->plaintext .'</br>';
-		}
+						$neighbour = $cell->next_sibling();
+						$sst = $neighbour->plaintext;
+				}
+				if($cell->plaintext == 'Unterrichtssprache'){
 
-		echo $sst.'</br>';
-		echo $language.'</br>';
+						$neighbour = $cell->next_sibling();
+						$language = $neighbour->plaintext;
+				}
 
-		echo '</br></br>';
 
-		}
-		else{
+			}
+
+			echo $id.'</br>';
+			echo $type.'</br>';
+			echo $title.'</br>';
+
+			foreach($lecturer->find('a') as $l){
+
+				echo $l->plaintext.'</br>';
+			}
+
+			foreach($subject->find('a') as $s){
+
+				echo $s->plaintext.'</br>';
+			}
+
+			echo $sst.'</br>';
+			echo $language.'</br>';
 
 			
-		}
-	
 
+			echo '</br></br>';
 
-
-
+		}		
 	}
 ?>
