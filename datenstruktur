@@ -1,0 +1,67 @@
+ 
+
+
+
+create table studienrichtung(
+ 
+ 	title varchar(40) primary key
+
+);
+
+create table studienzweig (
+
+	title varchar(40) primary key,
+	studienrichtung_title varchar(40),
+	foreign key (studienrichtung_title) references studienrichtung(title)
+
+);
+	
+create table studienfach(
+ 
+ 	title varchar(40) primary key
+
+);
+
+create table kurs(
+ 
+ 	id int(8) primary key,
+ 	title varchar(128)
+);
+
+create table lvleiter(
+ 
+ 	id int(8) primary key,
+ 	name varchar(128)
+);
+
+create table lvleiter_kurs(
+
+	lvleiter_id int(8),
+	foreign key (lvleiter_id) references lvleiter(id),
+	kurs_id int(8),
+	foreign key (kurs_id) references kurs(id)
+);
+
+create table studienfach_kurs(
+
+	studienfach_title varchar(40),
+	foreign key (studienfach_title) references studienfach(title),
+	kurs_id int(8),
+	foreign key (kurs_id) references kurs(id)
+);
+
+create table studienfach_studienzweig(
+
+	studienfach_title varchar(40),
+	foreign key (studienfach_title) references studienfach(title),
+	studienzweig_title varchar(40),
+	foreign key (studienzweig_title) references studienzweig(title),
+);
+
+create table studienrichtung_studienzweig(
+
+	studienrichtung_title varchar(40),
+	foreign key (studienrichtung_title) references studienrichtung(title),
+	studienzweig_title varchar(40),
+	foreign key (studienzweig_title) references studienzweig(title),
+);
