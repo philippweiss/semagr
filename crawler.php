@@ -18,7 +18,7 @@
 		$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
 		$lecturer = $spantext[0]->children(2)->children(0)->children(1);
 		
-		// password test
+		// password test #2
 
 		if($spantext[0]->children(2)->children(1)->children(0)->plaintext == 'Planpunkte Bachelor'){
 
