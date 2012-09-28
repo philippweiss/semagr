@@ -17,7 +17,12 @@
 	$type = $spantext[0]->children(0)->children(1)->children(1)->plaintext;
 	$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
 	$lecturer = $spantext[0]->children(2)->children(0)->children(1);
-	$subject = $spantext[0]->children(2)->children(1)->children(1);
+	
+
+	if($spantext[0]->children(2)->children(1)->children(0)->plaintext == 'Planpunkte Bachelor'){
+
+	$subject = $spantext[0]->children(2)->children(1)->children(1)->plaintext;
+	}
 	$sst = $spantext[0]->children(2)->children(2)->children(1);
 	$language = $spantext[0]->children(2)->children(3)->children(1);
 
