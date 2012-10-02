@@ -3,7 +3,11 @@
 	
 	include_once('simple_html_dom.php');
 <<<<<<< HEAD
+<<<<<<< HEAD
 //git test
+=======
+//git test karl
+>>>>>>> 5c06e809398dd774fd0a401de64e64b2bf28ae64
 
 	for($i=1; $i<10000; $i++){
 =======
