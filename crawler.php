@@ -4,7 +4,7 @@
 	include_once('simple_html_dom.php');
 
 
-//git test karl
+//das ist der test comment
 
 
 	for($i=1; $i<10000; $i++){
