@@ -2,9 +2,26 @@
 
 	
 	include_once('simple_html_dom.php');
+<<<<<<< HEAD
 //git test
 
 	for($i=1; $i<10000; $i++){
+=======
+        ini_set('max_execution_time', 3000);
+        ini_set('memory_limit', '-1');
+        
+        if(isset ($_GET['round'])){
+            
+            $round = $_GET['round'];
+        }
+        else{
+            $round = 1;
+        }
+        
+        $pace = 10;
+
+	for($i=($round-1)*$pace+1; $i<$round*$pace; $i++){
+>>>>>>> shrazy dropbox update
 
 		$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?C=S&LANG=DE&S=12W&LV=3&L2=S&L3=S&T=&L=&I='.$i.'&JOIN=AND');
 
@@ -20,10 +37,18 @@
 			
 			$table2 = $spantext[0]->children(2);
 			
+<<<<<<< HEAD
+
+			foreach($table2->find('td') as $cell){
+=======
 
 			foreach($table2->find('td') as $cell){
 
+>>>>>>> shrazy dropbox update
 
+				if($cell->plaintext == 'LV-Leiter/in'){
+
+<<<<<<< HEAD
 				if($cell->plaintext == 'LV-Leiter/in'){
 
 						$neighbour = $cell->next_sibling();
@@ -72,3 +97,61 @@
 		}		
 	}
 ?>
+=======
+						$neighbour = $cell->next_sibling();
+						$lecturer = $neighbour;
+				}
+				if($cell->plaintext == 'Planpunkte Bachelor'){
+
+						$neighbour = $cell->next_sibling();
+						$subject = $neighbour;
+				}
+				if($cell->plaintext == 'Semesterstunden'){
+
+						$neighbour = $cell->next_sibling();
+						$sst = $neighbour->plaintext;
+				}
+				if($cell->plaintext == 'Unterrichtssprache'){
+
+						$neighbour = $cell->next_sibling();
+						$language = $neighbour->plaintext;
+				}
+
+
+			}
+
+			echo $id.'</br>';
+			echo $type.'</br>';
+			echo $title.'</br>';
+
+			foreach($lecturer->find('a') as $l){
+
+				echo $l->plaintext.'</br>';
+			}
+
+			if(isset($subject)){
+                        
+                            foreach($subject->find('a') as $s){
+
+                                    echo $s->plaintext.'</br>';
+                            }
+                        }
+			echo $sst.'</br>';
+			echo $language.'</br>';
+
+			
+
+			echo '</br></br>';
+
+		}		
+	}
+        
+        
+?>
+
+<script type="text/javascript">
+
+window.location = "http://localhost/semagr/crawler.php?round=<? echo $round + 1; ?>" ;
+
+</script>
+>>>>>>> shrazy dropbox update
