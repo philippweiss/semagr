@@ -2,12 +2,12 @@
 
 	
 	ini_set('memory_limit', '128M');
-	ini_set('max_execution_time', 100000);
+	ini_set('max_execution_time', 0);
 	
 	include_once('simple_html_dom.php');
 	include('functions.php');
 
-	$pace = 1000;
+	$pace = 1;
 
 	if(isset($_GET['round'])){
 
@@ -18,7 +18,7 @@
 		$round = 1;
 	}
 	
-	if($round <= 10000/$pace){
+	if($round < 10000/$pace){
 
 
 		for($i=($round-1)*$pace+1; $i<=$round*$pace; $i++){
@@ -104,12 +104,14 @@
 
 			}		
 		}
-	}
+
 ?>
 
+	<script type="text/javascript">
 
-<script type="text/javascript">
+	document.location = "/semagr/crawler.php?round=" + <? echo $round +1; ?>
 
-document.location = "/semagr/crawler.php?round=" + <? echo $round +1; ?>
-
-</script>
+	</script>
+<?
+	}
+?>
