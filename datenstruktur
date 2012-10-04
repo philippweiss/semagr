@@ -44,9 +44,10 @@ create table uni(
 create table termine(
  
  	id int(8) primary key,
- 	place varchar(128),
+ 	weekday varchar(4),
  	start datetime,
- 	end datetime
+ 	end datetime,
+ 	place varchar(128)
 );
 
 create table kurs_termine(
