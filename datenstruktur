@@ -1,11 +1,8 @@
- 
-
-
+create database `semagr` default character set utf8 collate utf8_general_ci;
 
 create table studienrichtung(
  
  	title varchar(64) primary key
-
 );
 
 create table studienzweig (
@@ -13,13 +10,11 @@ create table studienzweig (
 	title varchar(64) primary key,
 	studienrichtung_title varchar(40),
 	foreign key (studienrichtung_title) references studienrichtung(title)
-
 );
 	
 create table studienfach(
  
  	title varchar(64) primary key
-
 );
 
 create table kurs(
@@ -28,6 +23,11 @@ create table kurs(
  	title varchar(128),
  	sst int(2),
  	language varchar(32) 
+);
+
+create table studienplanpunkt(
+
+	title varchar(128) primary key
 );
 
 create table lvleiter(
@@ -50,6 +50,22 @@ create table termine(
  	place varchar(128)
 );
 
+create table studienplanpunkt_kurs(
+
+	kurs_id int(8),
+	foreign key(kurs_id) references kurs(id),
+	studienplanpunkt_title varchar(128),
+	foreign key(studienplanpunkt_title) references studienplanpunkt(title)
+);
+
+create table studienplanpunkt_studienfach(
+
+	studienplanpunkt_title varchar(128),
+	foreign key(studienplanpunkt_title) references studienplanpunkt(title),
+	studienfach_title varchar(64),
+	foreign key(studienfach_title) references studienfach(title)
+);
+
 create table kurs_termine(
 
 	kurs_id int(8),
@@ -65,21 +81,12 @@ create table uni_studienrichtung(
 	foreign key (uni_title) references uni(title),
 	studienrichtung_title varchar(64),
 	foreign key (studienrichtung_title) references studienrichtung(title)
-	
 );
 
 create table lvleiter_kurs(
 
 	lvleiter_id int(8),
 	foreign key (lvleiter_id) references lvleiter(id),
-	kurs_id int(8),
-	foreign key (kurs_id) references kurs(id)
-);
-
-create table studienfach_kurs(
-
-	studienfach_title varchar(40),
-	foreign key (studienfach_title) references studienfach(title),
 	kurs_id int(8),
 	foreign key (kurs_id) references kurs(id)
 );
