@@ -43,28 +43,36 @@
 				mysql_query('insert into studienfach_studienzweig (studienfach_id,studienzweig_id) values ("'.$currentstudienfach_id.'","'.$currentstudienzweig_id.'")');
 				$link = $studienfach->children(0)->href;
 				$html = file_get_html('http://vvz.wu.ac.at'.$link);
-/*
+
 				if($html->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
 
-					$needle = 'li[class=pfeilblaulink]';
+					
+					//$needle = 'li[class=pfeilblaulink]';
+					$studienplanpunkte = $html->find('li[class=pfeilblaulink]');
 					$link = $studienplanpunkt->children(0)->href;
-					$html = file_get_html('http://vvz.wu.ac.at'.$link);
+					$html2 = file_get_html('http://vvz.wu.ac.at'.$link);
+					echo "planpunkt vorhanden";
 				}
 				else if($html->find('div[class=vvzh5]')){ //keine planpunkte vorhanden
 
-					$needle = 'div[class=vvzh5]';
+					echo "planpunkt nicht vorhanden";
+					//$needle = 'div[class=vvzh5]';
+					$studienplanpunkte = $html->find('div[class=vvzh5]');
 				}
-*/					foreach($html->find('li[class=pfeilblaulink]') as $studienplanpunkt){
+
+				foreach($studienplanpunkte as $studienplanpunkt){
 
 						echo $studienplanpunkt->plaintext.'</br>';
-						$currentstudienplanpunkt = $studienplanpunkt->children(0)->plaintext;
+						$currentstudienplanpunkt = $studienplanpunkt->plaintext;
 						
 						mysql_query('insert into studienplanpunkt (title) values("'.$currentstudienplanpunkt.'")');
 						$currentstudienplanpunkt_id = mysql_insert_id();
 						mysql_query('insert into studienplanpunkt_studienfach (studienplanpunkt_id,studienfach_id) values ("'.$currentstudienplanpunkt_id.'","'.$currentstudienfach_id.'")');
-						$link = $studienplanpunkt->children(0)->href;
-						$html = file_get_html('http://vvz.wu.ac.at'.$link);
+						
+						if(isset($html2)){
 
+							$html = $html2;
+						}
 
 						foreach($html->find('td[class=vvzc1]') as $kurs){
 
