@@ -18,6 +18,7 @@
 		echo $studienrichtung->children(0)->plaintext.'</br>';
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
 		mysql_query('insert into studienrichtung (title) values("'.$currentstudienrichtung.'")');
+		mysql_query('insert into uni_studienrichtung (uni_title,studienrichtung_title) values ("'.$uni.'","'.$currentstudienrichtung.'")');
 		$link = $studienrichtung->children(0)->href;
 		$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
@@ -26,6 +27,9 @@
 			echo $studienzweig->children(0)->plaintext.'</br>';
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
 			mysql_query('insert into studienzweig (title) values("'.$currentstudienzweig.'")');
+			mysql_query('insert into studienrichtung_studienzweig (studienrichtung_title,studienzweig_title) values ("'.$currentstudienrichtung.'","'.$currentstudienzweig.'")');
+			
+
 			$link = $studienzweig->children(0)->href;
 			$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
@@ -34,6 +38,7 @@
 				echo $studienfach->children(0)->plaintext.'</br>';
 				$currentstudienfach = $studienfach->children(0)->plaintext;
 				mysql_query('insert into studienfach (title) values("'.$currentstudienfach.'")');
+				mysql_query('insert into studienfach_studienzweig (studienfach_title,studienzweig_title) values ("'.$currentstudienfach.'","'.$currentstudienzweig.'")');
 				$link = $studienfach->children(0)->href;
 				$html = file_get_html('http://vvz.wu.ac.at'.$link);
 

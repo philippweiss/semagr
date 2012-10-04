@@ -7,9 +7,7 @@ create table studienrichtung(
 
 create table studienzweig (
 
-	title varchar(64) primary key,
-	studienrichtung_title varchar(40),
-	foreign key (studienrichtung_title) references studienrichtung(title)
+	title varchar(64) primary key
 );
 	
 create table studienfach(
@@ -93,16 +91,16 @@ create table lvleiter_kurs(
 
 create table studienfach_studienzweig(
 
-	studienfach_title varchar(40),
+	studienfach_title varchar(64),
 	foreign key (studienfach_title) references studienfach(title),
-	studienzweig_title varchar(40),
+	studienzweig_title varchar(64),
 	foreign key (studienzweig_title) references studienzweig(title)
 );
 
 create table studienrichtung_studienzweig(
 
-	studienrichtung_title varchar(40),
+	studienrichtung_title varchar(64),
 	foreign key (studienrichtung_title) references studienrichtung(title),
-	studienzweig_title varchar(40),
+	studienzweig_title varchar(64),
 	foreign key (studienzweig_title) references studienzweig(title)
 );
