@@ -3,11 +3,11 @@
 <ul>
 <?php
 
+include('functions.php');
+
+dbconnect();
+
 $title = $_GET['title'];
-
-$con = mysql_connect('localhost','root','root');
-mysql_select_db('wuapps');
-
 
 $query = "select distinct title from class";
 $res = mysql_query($query);
