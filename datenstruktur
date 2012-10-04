@@ -2,17 +2,20 @@ create database `semagr` default character set utf8 collate utf8_general_ci;
 
 create table studienrichtung(
  
- 	title varchar(64) primary key
+ 	id int(4) auto_increment primary key,
+ 	title varchar(64)
 );
 
 create table studienzweig (
 
-	title varchar(64) primary key
+	id int(4) auto_increment primary key,
+	title varchar(64)
 );
 	
 create table studienfach(
  
- 	title varchar(64) primary key
+ 	id int(4) auto_increment primary key,
+ 	title varchar(64)
 );
 
 create table kurs(
@@ -25,23 +28,25 @@ create table kurs(
 
 create table studienplanpunkt(
 
-	title varchar(128) primary key
+	id int(4) auto_increment primary key,
+	title varchar(128)
 );
 
 create table lvleiter(
  
- 	id int(8) primary key,
+ 	id int(8) auto_increment primary key,
  	name varchar(128)
 );
 
 create table uni(
- 
- 	title varchar(64) primary key
+ 	
+ 	id int(4) auto_increment primary key,
+ 	title varchar(64)
 );
 
 create table termine(
  
- 	id int(8) primary key,
+ 	id int(8) auto_increment primary key,
  	weekday varchar(4),
  	start datetime,
  	end datetime,
@@ -52,16 +57,16 @@ create table studienplanpunkt_kurs(
 
 	kurs_id int(8),
 	foreign key(kurs_id) references kurs(id),
-	studienplanpunkt_title varchar(128),
-	foreign key(studienplanpunkt_title) references studienplanpunkt(title)
+	studienplanpunkt_id int(4),
+	foreign key(studienplanpunkt_id) references studienplanpunkt(id)
 );
 
 create table studienplanpunkt_studienfach(
 
-	studienplanpunkt_title varchar(128),
-	foreign key(studienplanpunkt_title) references studienplanpunkt(title),
-	studienfach_title varchar(64),
-	foreign key(studienfach_title) references studienfach(title)
+	studienplanpunkt_id int(4),
+	foreign key(studienplanpunkt_id) references studienplanpunkt(id),
+	studienfach_id int(4),
+	foreign key(studienfach_id) references studienfach(id)
 );
 
 create table kurs_termine(
@@ -75,10 +80,10 @@ create table kurs_termine(
 
 create table uni_studienrichtung(
 
-	uni_title varchar(64),
-	foreign key (uni_title) references uni(title),
-	studienrichtung_title varchar(64),
-	foreign key (studienrichtung_title) references studienrichtung(title)
+	uni_id int(4),
+	foreign key (uni_id) references uni(id),
+	studienrichtung_id int(4),
+	foreign key (studienrichtung_id) references studienrichtung(id)
 );
 
 create table lvleiter_kurs(
@@ -91,16 +96,16 @@ create table lvleiter_kurs(
 
 create table studienfach_studienzweig(
 
-	studienfach_title varchar(64),
-	foreign key (studienfach_title) references studienfach(title),
-	studienzweig_title varchar(64),
-	foreign key (studienzweig_title) references studienzweig(title)
+	studienfach_id int(4),
+	foreign key (studienfach_id) references studienfach(id),
+	studienzweig_id int(4),
+	foreign key (studienzweig_id) references studienzweig(id)
 );
 
 create table studienrichtung_studienzweig(
 
-	studienrichtung_title varchar(64),
-	foreign key (studienrichtung_title) references studienrichtung(title),
-	studienzweig_title varchar(64),
-	foreign key (studienzweig_title) references studienzweig(title)
+	studienrichtung_id int(4),
+	foreign key (studienrichtung_id) references studienrichtung(id),
+	studienzweig_id int(4),
+	foreign key (studienzweig_id) references studienzweig(id)
 );
