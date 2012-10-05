@@ -114,13 +114,17 @@
 								
 								foreach($lecturer->find('a') as $l){
 
-									echo $l->plaintext.'</br>';
+									$currentlecturer_name = $l->plaintext;
 								}
 							}
 							else{
 
-								$lecturer = 'Keine Angabe';
+								$currentlecturer_name = 'Keine Angabe';
 							}
+
+							mysql_query('insert into lvleiter (name) values("'.$currentlecturer_name .'")');
+							$currentlecturer_id = mysql_insert_id();
+							mysql_query('insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")');
 
 							if(!isset($sst)){
 
