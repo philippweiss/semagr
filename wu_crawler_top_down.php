@@ -15,7 +15,7 @@
 
 	foreach($html->find('li[class=sub2]') as $studienrichtung){
 
-		echo $studienrichtung->children(0)->plaintext.'</br>';
+		//echo $studienrichtung->children(0)->plaintext.'</br>';
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
 		mysql_query('insert into studienrichtung (title) values("'.$currentstudienrichtung.'")');
 		$currentstudienrichtung_id = mysql_insert_id();
@@ -25,7 +25,7 @@
 
 		foreach($html->find('li[class=sub1]') as $studienzweig){
 
-			echo $studienzweig->children(0)->plaintext.'</br>';
+			//echo $studienzweig->children(0)->plaintext.'</br>';
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
 			mysql_query('insert into studienzweig (title) values("'.$currentstudienzweig.'")');
 			$currentstudienzweig_id = mysql_insert_id();
@@ -35,7 +35,7 @@
 
 			foreach($html->find('li[class=sub2]') as $studienfach){
 
-				echo $studienfach->children(0)->plaintext.'</br>';
+				//echo $studienfach->children(0)->plaintext.'</br>';
 				$currentstudienfach = $studienfach->children(0)->plaintext;
 				mysql_query('insert into studienfach (title) values("'.$currentstudienfach.'")');
 				$currentstudienfach_id = mysql_insert_id();
@@ -56,7 +56,7 @@
 
 				foreach($studienplanpunkte as $studienplanpunkt){
 
-						echo $studienplanpunkt->plaintext.'</br>';
+						//echo $studienplanpunkt->plaintext.'</br>';
 						$currentstudienplanpunkt = $studienplanpunkt->plaintext;
 						
 						mysql_query('insert into studienplanpunkt (title) values("'.$currentstudienplanpunkt.'")');
@@ -106,25 +106,51 @@
 								}
 							}
 
-							echo $currentkurs_id.'</br>';
-							echo $currentkurs_type.'</br>';
-							echo $currentkurs_title.'</br>';
+							//echo $currentkurs_id.'</br>';
+							//echo $currentkurs_type.'</br>';
+							//echo $currentkurs_title.'</br>';
 
 							if(isset($lecturer)){
 								
 								foreach($lecturer->find('a') as $l){
 
 									$currentlecturer_name = $l->plaintext;
+									$res = mysql_query('select id from lvleiter where name="'.$currentlecturer_name.'"');
+
+									if(mysql_num_rows($res) > 0){
+
+										$row = mysql_fetch_row($res);
+										$currentlecturer_id = $row[0];
+									}
+									else{
+
+										mysql_query('insert into lvleiter (name) values("'.$currentlecturer_name .'")');
+										$currentlecturer_id = mysql_insert_id();
+									}
+
+									echo $currentlecturer_id.$currentkurs_id;
+									mysql_query('insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")');
 								}
 							}
 							else{
 
 								$currentlecturer_name = 'Keine Angabe';
+								$res = mysql_query('select id from lvleiter where name="'.$currentlecturer_name.'"');
+
+									if(mysql_num_rows($res) > 0){
+
+										$row = mysql_fetch_row($res);
+										$currentlecturer_id = $row[0];
+									}
+									else{
+
+										mysql_query('insert into lvleiter (name) values("'.$currentlecturer_name .'")');
+										$currentlecturer_id = mysql_insert_id();
+										
+									}
+									mysql_query('insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")');
 							}
 
-							mysql_query('insert into lvleiter (name) values("'.$currentlecturer_name .'")');
-							$currentlecturer_id = mysql_insert_id();
-							mysql_query('insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")');
 
 							if(!isset($sst)){
 
@@ -151,7 +177,7 @@
 									$datetimes = makeDatetimes($cell->children(1)->plaintext,$cell->children(2)->plaintext);
 									$place = str_replace(' (Lageplan)','',$cell->children(3)->plaintext);
 									$place = str_replace(' ','',$place);
-									echo $weekday.$datetimes[0].$datetimes[1].$place;
+									//echo $weekday.$datetimes[0].$datetimes[1].$place;
 									mysql_query('insert into termine (weekday,start,end,place) values("'.$weekday.'","'.$datetimes[0].'","'.$datetimes[1].'","'.$place.'")');
 									$currenttermin_id = mysql_insert_id();
 									mysql_query('insert into kurs_termine (kurs_id,termine_id) values ("'.$currentkurs_id.'","'.$currenttermin_id.'")');
@@ -164,7 +190,7 @@
 	}
 
 	//end of crawling
-
+	echo "done biatch!";
 	
 ?>
 
