@@ -49,7 +49,7 @@ create table lvleiter(
 create table termine(
  
  	id int(8) auto_increment primary key,
- 	weekday varchar(4),
+ 	weekday varchar(8),
  	start datetime,
  	end datetime,
  	place varchar(128)

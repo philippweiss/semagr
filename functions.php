@@ -8,11 +8,23 @@ function dbconnect(){
     
 }
 
+function makeDatetimes($date,$time){
+
+    $datearray = explode('.',$date);
+    $date = $datearray[2].'-'.$datearray[1].'-'.$datearray[0];
+    $times = explode('-',str_replace(' Uhr','',$time));
+    $starttime = $times[0].':00';
+    $endtime = $times[1].':00';
+    $start = $date.' '.$starttime;
+    $end = $date.' '.$endtime;
+    $datetimes = array($start,$end);
+    //echo $datetimes[0].' '.$datetimes[1];
+    return $datetimes;
+}
+
+
 
 function checkCookie(){
-    
-    
-    
     
     if(isset($_COOKIE['id'])){
     

@@ -1,21 +1,36 @@
 <?
-include('functions.php');
-dbconnect();
-mysql_query('delete from uni_studienrichtung;
-delete from studienfach_studienzweig;
-delete from kurs_termine;
-delete from lvleiter_kurs;
-delete from studienplanpunkt_kurs;
-delete from studienplanpunkt_studienfach;
-delete from studienrichtung_studienzweig;
-delete from lvleiter;
-delete from studienfach;
-delete from kurs;
-delete from studienplanpunkt;
-delete from studienrichtung;
-delete from studienzweig;
-delete from termine;
-delete from uni;
-')
-
+$sql = "DROP TABLE `kurs`, `kurs_termine`, `lvleiter`, `lvleiter_kurs`, `studienfach`, `studienfach_studienplanpunkt`, `studienplanpunkt`, `studienplanpunkt_kurs`, `studienrichtung`, `studienrichtung_studienzweig`, `studienzweig`, `studienzweig_studienfach`, `termine`, `uni`, `uni_studienrichtung`;";
+mysql_query($sql);
+$sql = "DROP TABLE `kurs`, `kurs_termine`, `lvleiter`, `lvleiter_kurs`, `studienfach`, `studienfach_studienplanpunkt`, `studienplanpunkt`, `studienplanpunkt_kurs`, `studienrichtung`, `studienrichtung_studienzweig`, `studienzweig`, `studienzweig_studienfach`, `termine`, `uni`, `uni_studienrichtung`;";
+mysql_query($sql);
+$sql = 'create table uni (id int(4) auto_increment primary key, title varchar(64));';
+mysql_query($sql);
+$sql = 'create table studienrichtung(id int(4) auto_increment primary key,	title varchar(64));';
+mysql_query($sql);
+$sql = 'create table studienzweig (id int(4) auto_increment primary key, title varchar(64));';
+mysql_query($sql);
+$sql = 'create table studienfach(id int(4) auto_increment primary key,	title varchar(64));';
+mysql_query($sql);
+$sql = 'create table studienplanpunkt(id int(4) auto_increment primary key, title varchar(128));';
+mysql_query($sql);
+$sql = 'create table kurs(id int(8) primary key, type varchar(32),	title varchar(128),	sst int(2),	language varchar(32));';
+mysql_query($sql);
+$sql = 'create table lvleiter(id int(8) auto_increment primary key, name varchar(128));';
+mysql_query($sql);
+$sql = 'create table termine(id int(8) auto_increment primary key,	weekday varchar(8),	start datetime, end datetime, place varchar(128));';
+mysql_query($sql);
+$sql = 'create table uni_studienrichtung(uni_id int(4), foreign key (uni_id) references uni(id), studienrichtung_id int(4),foreign key (studienrichtung_id) references studienrichtung(id));';
+mysql_query($sql);
+$sql = 'create table studienrichtung_studienzweig(studienrichtung_id int(4), foreign key (studienrichtung_id) references studienrichtung(id), studienzweig_id int(4), foreign key (studienzweig_id) references studienzweig(id));';
+mysql_query($sql);
+$sql = 'create table studienzweig_studienfach(studienzweig_id int(4), foreign key (studienzweig_id) references studienzweig(id), studienfach_id int(4), foreign key (studienfach_id) references studienfach(id));';
+mysql_query($sql);
+$sql = 'create table studienfach_studienplanpunkt( studienfach_id int(4), foreign key(studienfach_id) references studienfach(id), studienplanpunkt_id int(4), foreign key(studienplanpunkt_id) references studienplanpunkt(id));';
+mysql_query($sql);
+$sql = 'create table studienplanpunkt_kurs( studienplanpunkt_id int(4), foreign key(studienplanpunkt_id) references studienplanpunkt(id), kurs_id int(8), foreign key(kurs_id) references kurs(id));';
+mysql_query($sql);
+$sql = 'create table kurs_termine( kurs_id int(8), foreign key(kurs_id) references kurs(id), termine_id int(8), foreign key(termine_id) references termine(id));';
+mysql_query($sql);
+$sql = 'create table lvleiter_kurs( lvleiter_id int(8), foreign key (lvleiter_id) references lvleiter(id), kurs_id int(8),	foreign key (kurs_id) references kurs(id));';
+mysql_query($sql);
 ?>

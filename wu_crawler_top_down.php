@@ -5,8 +5,8 @@
 	
 	include_once('simple_html_dom.php');
 	include('functions.php');
-
 	dbconnect();
+	include('cleardatabase.php');
 	$uni = 'Wirtschaftsuniversität Wien';
 	mysql_query('insert into uni (title) values ("'.$uni.'")');
 	$uni_id = mysql_insert_id();
@@ -76,9 +76,10 @@
 
 							$spantext = $html->find('span[class=text]');
 					
-							$id =  $spantext[0]->children(0)->children(1)->children(0)->plaintext;
-							$type = str_replace (" ", "", $spantext[0]->children(0)->children(1)->children(1)->plaintext);
-							$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
+							$currentkurs_id =  $spantext[0]->children(0)->children(1)->children(0)->plaintext;
+							$currentkurs_type = str_replace (" ", "", $spantext[0]->children(0)->children(1)->children(1)->plaintext);
+							$currentkurs_type = str_replace ("&nbsp;", "", $currentkurs_type);
+							$currentkurs_title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
 							$table2 = $spantext[0]->children(2);
 					
 							foreach($table2->find('td') as $cell){
@@ -105,9 +106,9 @@
 								}
 							}
 
-							echo $id.'</br>';
-							echo $type.'</br>';
-							echo $title.'</br>';
+							echo $currentkurs_id.'</br>';
+							echo $currentkurs_type.'</br>';
+							echo $currentkurs_title.'</br>';
 
 							if(isset($lecturer)){
 								
@@ -130,8 +131,8 @@
 								$language = 'Keine Angabe';
 							}
 
-							mysql_query('insert into kurs(id,type,title,sst,language) values("'.$id.'","'.$type.'","'.$title.'","'.$sst.'","'.$language.'")');
-							mysql_query('insert into studienplanpunkt_kurs (studienplanpunkt_id,kurs_id) values ("'.$currentstudienplanpunkt_id.'","'.$id.'")');
+							mysql_query('insert into kurs(id,type,title,sst,language) values("'.$currentkurs_id.'","'.$currentkurs_type.'","'.$currentkurs_title.'","'.$sst.'","'.$language.'")');
+							mysql_query('insert into studienplanpunkt_kurs (studienplanpunkt_id,kurs_id) values ("'.$currentstudienplanpunkt_id.'","'.$currentkurs_id.'")');
 
 							$table3 = $spantext[0]->children(4);
 							$first = $table3->first_child();
@@ -141,25 +142,18 @@
 
 								if($cell != $last && $cell != $first){
 
-									echo $cell->children(0);
-									$weekday = str_replace(',','',$cell->children(0));
-									echo $cell->children(1);
-									$start = new DateTime('2000-01-01');
-									$start = $start->format('Y-m-d h:m:s');
-									echo $start;
-									$end = new DateTime('2000-01-01');
-									$end = $end->format('Y-m-d h:m:s');
-									echo $end;
-									$place= str_replace(' (Lageplan)','',$cell->children(3)->plaintext);
-									echo $place;
-									mysql_query('insert into termine (weekday,start,end,place) values("'.$weekday.'","'.$start.'","'.$end.'","'.$place.'")');
+									$weekday = str_replace(',','',$cell->children(0)->plaintext);
+									$weekday = str_replace(' ','',$weekday);
+									$datetimes = makeDatetimes($cell->children(1)->plaintext,$cell->children(2)->plaintext);
+									$place = str_replace(' (Lageplan)','',$cell->children(3)->plaintext);
+									$place = str_replace(' ','',$place);
+									echo $weekday.$datetimes[0].$datetimes[1].$place;
+									mysql_query('insert into termine (weekday,start,end,place) values("'.$weekday.'","'.$datetimes[0].'","'.$datetimes[1].'","'.$place.'")');
+									$currenttermin_id = mysql_insert_id();
+									mysql_query('insert into kurs_termine (kurs_id,termine_id) values ("'.$currentkurs_id.'","'.$currenttermin_id.'")');
 								}
 							}
-							
-							die();
-
-						}
-					
+						}	
 				}
 			}
 		}
