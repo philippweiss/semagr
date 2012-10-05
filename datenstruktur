@@ -34,6 +34,7 @@ create table studienplanpunkt(
 create table kurs(
  
  	id int(8) primary key,
+ 	type varchar(32),
  	title varchar(128),
  	sst int(2),
  	language varchar(32) 
@@ -89,10 +90,10 @@ create table studienfach_studienplanpunkt(
 
 create table studienplanpunkt_kurs(
 
-	kurs_id int(8),
-	foreign key(kurs_id) references kurs(id),
 	studienplanpunkt_id int(4),
-	foreign key(studienplanpunkt_id) references studienplanpunkt(id)
+	foreign key(studienplanpunkt_id) references studienplanpunkt(id),
+	kurs_id int(8),
+	foreign key(kurs_id) references kurs(id)
 );
 
 create table kurs_termine(

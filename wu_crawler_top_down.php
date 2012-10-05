@@ -7,7 +7,6 @@
 	include('functions.php');
 
 	dbconnect();
-	$kursanzahl = 0;
 	$uni = 'Wirtschaftsuniversität Wien';
 	mysql_query('insert into uni (title) values ("'.$uni.'")');
 	$uni_id = mysql_insert_id();
@@ -40,24 +39,19 @@
 				$currentstudienfach = $studienfach->children(0)->plaintext;
 				mysql_query('insert into studienfach (title) values("'.$currentstudienfach.'")');
 				$currentstudienfach_id = mysql_insert_id();
-				mysql_query('insert into studienfach_studienzweig (studienfach_id,studienzweig_id) values ("'.$currentstudienfach_id.'","'.$currentstudienzweig_id.'")');
+				mysql_query('insert into studienzweig_studienfach (studienzweig_id,studienfach_id) values ("'.$currentstudienzweig_id.'","'.$currentstudienfach_id.'")');
 				$link = $studienfach->children(0)->href;
 				$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
 				if($html->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
 
-					
-					//$needle = 'li[class=pfeilblaulink]';
 					$studienplanpunkte = $html->find('li[class=pfeilblaulink]');
-					$link = $studienplanpunkt->children(0)->href;
-					$html2 = file_get_html('http://vvz.wu.ac.at'.$link);
-					echo "planpunkt vorhanden";
+					$planpunktevorhanden = true;
 				}
 				else if($html->find('div[class=vvzh5]')){ //keine planpunkte vorhanden
 
-					echo "planpunkt nicht vorhanden";
-					//$needle = 'div[class=vvzh5]';
 					$studienplanpunkte = $html->find('div[class=vvzh5]');
+					$planpunktevorhanden = false;
 				}
 
 				foreach($studienplanpunkte as $studienplanpunkt){
@@ -67,24 +61,23 @@
 						
 						mysql_query('insert into studienplanpunkt (title) values("'.$currentstudienplanpunkt.'")');
 						$currentstudienplanpunkt_id = mysql_insert_id();
-						mysql_query('insert into studienplanpunkt_studienfach (studienplanpunkt_id,studienfach_id) values ("'.$currentstudienplanpunkt_id.'","'.$currentstudienfach_id.'")');
+						mysql_query('insert into studienfach_studienplanpunkt (studienfach_id,studienplanpunkt_id) values ("'.$currentstudienfach_id.'","'.$currentstudienplanpunkt_id.'")');
 						
-						if(isset($html2)){
+						if($planpunktevorhanden){
 
-							$html = $html2;
+							$link = $studienplanpunkt->children(0)->href;
+							$html = file_get_html('http://vvz.wu.ac.at'.$link);
 						}
 
 						foreach($html->find('td[class=vvzc1]') as $kurs){
 
-							//echo $kurs->children(0)->plaintext.'</br>';
-							$kursanzahl += 1;
 							$link = $kurs->children(0)->href;
 							$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
 							$spantext = $html->find('span[class=text]');
 					
 							$id =  $spantext[0]->children(0)->children(1)->children(0)->plaintext;
-							$type = $spantext[0]->children(0)->children(1)->children(1)->plaintext;
+							$type = str_replace (" ", "", $spantext[0]->children(0)->children(1)->children(1)->plaintext);
 							$title = $spantext[0]->children(0)->children(1)->children(3)->children(0)->plaintext;
 							$table2 = $spantext[0]->children(2);
 					
@@ -123,32 +116,58 @@
 									echo $l->plaintext.'</br>';
 								}
 							}
+							else{
 
-							if(isset($subject)){
-									
-								foreach($subject->find('a') as $s){
+								$lecturer = 'Keine Angabe';
+							}
 
-									echo $s->plaintext.'</br>';
+							if(!isset($sst)){
+
+								$sst = "Keine Angabe";
+							}
+							if(!isset($language)){
+
+								$language = 'Keine Angabe';
+							}
+
+							mysql_query('insert into kurs(id,type,title,sst,language) values("'.$id.'","'.$type.'","'.$title.'","'.$sst.'","'.$language.'")');
+							mysql_query('insert into studienplanpunkt_kurs (studienplanpunkt_id,kurs_id) values ("'.$currentstudienplanpunkt_id.'","'.$id.'")');
+
+							$table3 = $spantext[0]->children(4);
+							$first = $table3->first_child();
+							$last = $table3->last_child();
+
+							foreach($table3->find('tr') as $cell){
+
+								if($cell != $last && $cell != $first){
+
+									echo $cell->children(0);
+									$weekday = str_replace(',','',$cell->children(0));
+									echo $cell->children(1);
+									$start = new DateTime('2000-01-01');
+									$start = $start->format('Y-m-d h:m:s');
+									echo $start;
+									$end = new DateTime('2000-01-01');
+									$end = $end->format('Y-m-d h:m:s');
+									echo $end;
+									$place= str_replace(' (Lageplan)','',$cell->children(3)->plaintext);
+									echo $place;
+									mysql_query('insert into termine (weekday,start,end,place) values("'.$weekday.'","'.$start.'","'.$end.'","'.$place.'")');
 								}
 							}
-							if(isset($sst)){
-
-								echo $sst.'</br>';
-							}
-							if(isset($language)){
-
-								echo $language.'</br>';
-							}
+							
+							die();
 
 						}
-					}
+					
+				}
 			}
 		}
 	}
 
 	//end of crawling
 
-	echo $kursanzahl . " kurse gefunden.";
+	
 ?>
 
 
