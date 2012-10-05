@@ -1,7 +1,5 @@
 <?
-$sql = "DROP TABLE `kurs`, `kurs_termine`, `lvleiter`, `lvleiter_kurs`, `studienfach`, `studienfach_studienplanpunkt`, `studienplanpunkt`, `studienplanpunkt_kurs`, `studienrichtung`, `studienrichtung_studienzweig`, `studienzweig`, `studienzweig_studienfach`, `termine`, `uni`, `uni_studienrichtung`;";
-mysql_query($sql);
-$sql = "DROP TABLE `kurs`, `kurs_termine`, `lvleiter`, `lvleiter_kurs`, `studienfach`, `studienfach_studienplanpunkt`, `studienplanpunkt`, `studienplanpunkt_kurs`, `studienrichtung`, `studienrichtung_studienzweig`, `studienzweig`, `studienzweig_studienfach`, `termine`, `uni`, `uni_studienrichtung`;";
+$sql = "DROP TABLE `kurs_termine`, `lvleiter_kurs`, `studienfach_studienplanpunkt`, `studienplanpunkt_kurs`, `studienrichtung_studienzweig`, `studienzweig_studienfach`, `uni_studienrichtung`, `kurs`, `lvleiter`, `studienfach`, `studienplanpunkt`, `studienrichtung`, `studienzweig`, `termine`, `uni`";
 mysql_query($sql);
 $sql = 'create table uni (id int(4) auto_increment primary key, title varchar(64));';
 mysql_query($sql);
