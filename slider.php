@@ -29,10 +29,22 @@
 
 		</div>
 
+		<div id="workbench" style="z-index:-1;position:relative;left:0px;top:-320px;width:400px;height:320px;background-color:grey;color:white">
+		
+
+		</div>
+
 
 		<script>
+			//slide-up and slide-down
 			$('#filter_menu').hide();
 
+		    $('#filter_button').click(function () {
+      			$('#filter_menu').slideToggle("slow");
+    		});
+			
+		    /*
+		    //alternative to above: makes alternating sliding time possible
 			$('#filter_button').click(function () {
 				if ($('#filter_menu').is(":hidden")) {
 					$('#filter_menu').slideDown("slow");
@@ -40,6 +52,23 @@
 					$('#filter_menu').slideUp("300");
 				}
 			});
+			*/
+
+			//slide-sideways
+
+			$(document).ready(function() {
+				$('#netclass').click(function() {
+					var $lefty = $(this).next();
+					$lefty.animate({
+						left: parseInt($lefty.css('left'),10) == 0 ?
+						-$lefty.outerWidth() :
+						0
+					});
+				});
+			});
+			
+
+
 		</script>
 
 	<body>
