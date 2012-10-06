@@ -75,7 +75,7 @@
 			$('#filter_tree').click(function () {
 				if ($('#workbench').is(":hidden")){
 
-					$('#workbench').show('slide',300);
+					$('#workbench').show('slide',450);
 				}
 				else{
 
@@ -84,7 +84,7 @@
 						$('#right').hide('slide',300);
 					}	
 
-					$('#workbench').hide('slide',300);
+					$('#workbench').hide('slide',450);
 				}
 			});
 
