@@ -13,10 +13,21 @@
 			#wrapper {width:1000px; margin: 100px auto;}
 				#left {float:left; width:150px;}
 					#filter_button {height:20px; background-color:blue; color:white}
-					#filter_menu {height:40px; background-color:green; color:white}
-					#filter_tree {height:300px; background-color:red; color:white}
-				#workbench {float:left;width:700px; height:360px; background-color:grey;color:white}
+					#filter_menu {height:40px; background-color:red; color:white}
+					#filter_tree {height:300px; background-color:grey; color:white}
+				#workbench {float:left;width:700px; height:320px; background-color:grey;color:white}
 				#right {float:left; width:150px; height:360px; background-color:#333333}
+
+			.shadowin {
+   						-moz-box-shadow:    inset 0 0 10px #000000;
+   						-webkit-box-shadow: inset 0 0 10px #000000;
+   						box-shadow:         inset 0 0 10px #000000;
+						}
+			.shadowout {
+						-webkit-box-shadow:	1px 0 10px rgba(0, 0, 0, 0.6);
+						-moz-box-shadow:	1px 0 10px rgba(0, 0, 0, 0.6);
+						box-shadow:			1px 0 10px rgba(0, 0, 0, 0.6);	
+						}
 
 			
 		</style>		
@@ -39,7 +50,7 @@
 					filtermenu
 				</div>
 
-				<div id="filter_tree">
+				<div id="filter_tree", class="shadowout">
 					netclass
 				</div>
 			</div>
