@@ -19,9 +19,9 @@
 				#right {float:left; width:150px; height:360px; background-color:#333333}
 
 			.shadowin {
-   						-moz-box-shadow:    inset 0 0 10px #000000;
-   						-webkit-box-shadow: inset 0 0 10px #000000;
-   						box-shadow:         inset 0 0 10px #000000;
+   						-moz-box-shadow:	inset 0 0 10px #000000;
+   						-webkit-box-shadow:	inset 0 0 10px #000000;
+   						box-shadow:			inset 0 0 10px #000000;
 						}
 			.shadowout {
 						-webkit-box-shadow:	1px 0 10px rgba(0, 0, 0, 0.6);
