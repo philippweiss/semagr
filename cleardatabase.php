@@ -12,9 +12,9 @@ $sql = 'create table studienfach(id int(4) auto_increment primary key,	title var
 mysql_query($sql);
 $sql = 'create table studienplanpunkt(id int(4) auto_increment primary key, title varchar(128));';
 mysql_query($sql);
+*/
 $sql = 'create table kurs(id int(8) primary key, type varchar(32),	title varchar(128),	sst int(2),	language varchar(32));';
 mysql_query($sql);
-*/
 $sql = 'create table lvleiter(id int(8) auto_increment primary key, name varchar(128));';
 mysql_query($sql);
 /*
@@ -32,7 +32,7 @@ $sql = 'create table studienplanpunkt_kurs( studienplanpunkt_id int(4), foreign 
 mysql_query($sql);
 $sql = 'create table kurs_termine( kurs_id int(8), foreign key(kurs_id) references kurs(id), termine_id int(8), foreign key(termine_id) references termine(id));';
 mysql_query($sql);
+*/
 $sql = 'create table lvleiter_kurs( lvleiter_id int(8), foreign key (lvleiter_id) references lvleiter(id), kurs_id int(8),	foreign key (kurs_id) references kurs(id));';
 mysql_query($sql);
-*/
 ?>
