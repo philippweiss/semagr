@@ -8,8 +8,10 @@
 	dbconnect();
 	include('cleardatabase.php');
 	$uni = 'Wirtschaftsuniversität Wien';
-	mysql_query('insert into uni (title) values ("'.$uni.'")');
-	$uni_id = mysql_insert_id();
+	$query = 'insert into uni (title) values ("'.$uni.'")';
+	echo $query;
+	//mysql_query();
+	//$uni_id = mysql_insert_id();
 
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
 
