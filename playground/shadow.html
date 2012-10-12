@@ -6,48 +6,59 @@
 		
 		<title>shadow</title>
 		<style type="text/css">
+
+			#wrapper {
+				height:5000px;
+				width:1000px;
+				background-color:white;
+			}
+		
 		</style>
 
 
 	</head>
 
 	<body>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-<!--	<defs>
+<!--	
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
 
-		<linearGradient id="grad1" x1="50%" y1="50%" x2="0%" y2="0%">
-			<stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
-			<stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
-		</linearGradient>
+					<rect x="50" y="20" rx="4" ry="4" width="200" height="300" style="fill:#999999;stroke:#999999;stroke-width:5;fill-opacity:1;
+		  			stroke-opacity:0.6"/>
 
-		<linearGradient id="grad2" x1="0%" y1="100%" x2="0%" y2="0%">
-			<stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
-			<stop offset="20%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
-		</linearGradient>
-
-		<linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
-			<stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
-			<stop offset="20%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
-		</linearGradient>
-
-		<linearGradient id="grad4" x1="0%" y1="0%" x2="0%" y2="100%">
-			<stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
-			<stop offset="20%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
-		</linearGradient>
-
-	</defs>
+				</svg>
 -->
-	<rect x="50" y="20" rx="4" ry="4" width="200" height="300" style="fill:#999999;stroke:#999999;stroke-width:5;fill-opacity:1;
-  stroke-opacity:0.6"/>
+
+		<div id="wrapper">
+
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+					<defs>
+
+						<filter id="f1" x="0" y="0">
+							<feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+						</filter>
+
+						<filter id="f2">
+							<feGaussianBlur in="SourceGraphic" stdDeviation="0.9" />
+						</filter>
+
+					</defs>
 <!--
-	<rect id="elevated" width="600" height="600" fill="url(#grad2)"/>
-
-	<rect id="elevated" width="300" height="600" fill="url(#grad3)"/>
-
-	<rect id="elevated" width="300" height="600" fill="url(#grad4)"/>
+	 
+					<rect x="100" y="100" width="300" height="300" stroke="#999999" stroke-width="1" fill="#999999" filter="url(#f1)" />
 -->
-</svg>
-		
+
+					<rect x="100" y="100" width="300" height="300" stroke="#BBBBBB" stroke-width="4" fill="#AAAAAA" filter="url(#f2)" />
+<!--
+					<rect x="97" y="97" width="306" height="306" style="fill-opacity:0;stroke:#BBBBBB;stroke-width:0.1;stroke-opacity:1" />
+-->
+					<rect x="403.1" y="100" width="300" height="300" stroke="#BBBBBB" stroke-width="4" fill="#AAAAAA" filter="url(#f2)" />
+<!--
+					<rect x="403" y="97" width="306" height="306" style="fill-opacity:0;stroke:#BBBBBB;stroke-width:0.1;stroke-opacity:1" />
+-->
+				</svg>
+
+		</div>
 
 	</body>
 
