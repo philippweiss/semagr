@@ -1,40 +1,36 @@
 <?
-
 	ini_set('memory_limit', '4096M');
 	ini_set('max_execution_time', 0);
 	
 	include_once('simple_html_dom.php');
 	include('functions.php');
 	dbconnect();
-	include('cleardatabase.php');
+	clearDatabase();
 	$uni = 'Wirtschaftsuniversität Wien';
 	$query = 'insert into uni (title) values ("'.$uni.'")';
-	echo $query;
-	//mysql_query();
-	//$uni_id = mysql_insert_id();
+	echo $query."</br>";
+	mysql_query($query);
+	$currentuni_id = mysql_insert_id();
 
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
 
 	foreach($html->find('li[class=sub2]') as $studienrichtung){
 
-		//echo $studienrichtung->children(0)->plaintext.'</br>';
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
-		mysql_query('insert into studienrichtung (title) values("'.$currentstudienrichtung.'")');
+		$query = 'insert into studienrichtung (title,uni_id) values ("'.$currentstudienrichtung.'","'.$currentuni_id.'")';
+		echo $query."</br>";
+		mysql_query($query);
 		$currentstudienrichtung_id = mysql_insert_id();
-		mysql_query('insert into uni_studienrichtung (uni_id,studienrichtung_id) values ("'.$uni_id.'","'.$currentstudienrichtung_id.'")');
 		$link = $studienrichtung->children(0)->href;
 		$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
 		foreach($html->find('li[class=sub1]') as $studienzweig){
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
-			$query = 'insert into studienzweig (title) values("'.$currentstudienzweig.'")';
-			echo $query;
-			//mysql_query($query);
-			//$currentstudienzweig_id = mysql_insert_id();
-			$query = 'insert into studienrichtung_studienzweig (studienrichtung_id,studienzweig_id) values ("'.$currentstudienrichtung_id.'","'.$currentstudienzweig_id.'")'
-			echo $query;
-			//mysql_query($query);
+			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id.'")';
+			echo $query."</br>";
+			mysql_query($query);
+			$currentstudienzweig_id = mysql_insert_id();
 			$link = $studienzweig->children(0)->href;
 			$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
@@ -42,13 +38,10 @@
 
 
 				$currentstudienfach = $studienfach->children(0)->plaintext;
-				$query = 'insert into studienfach (title) values("'.$currentstudienfach.'")';
-				echo $query;
-				//mysql_query($query);
-				//$currentstudienfach_id = mysql_insert_id();
-				$query = 'insert into studienzweig_studienfach (studienzweig_id,studienfach_id) values ("'.$currentstudienzweig_id.'","'.$currentstudienfach_id.'")'
-				echo $query;
-				//mysql_query($query);
+				$query = 'insert into studienfach (title,studienzweig_id) values ("'.$currentstudienfach.'","'.$currentstudienzweig_id.'")';
+				echo $query."</br>";
+				mysql_query($query);
+				$currentstudienfach_id = mysql_insert_id();
 				$link = $studienfach->children(0)->href;
 				$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
@@ -67,12 +60,10 @@
 
 					//echo $studienplanpunkt->plaintext.'</br>';
 					$currentstudienplanpunkt = $studienplanpunkt->plaintext;
-					$query = 'insert into studienplanpunkt (title) values("'.$currentstudienplanpunkt.'")';	
-					echo $query
-					//mysql_query($query);
-					//$currentstudienplanpunkt_id = mysql_insert_id();
-					$query = 'insert into studienfach_studienplanpunkt (studienfach_id,studienplanpunkt_id) values ("'.$currentstudienfach_id.'","'.$currentstudienplanpunkt_id.'")';
+					$query = 'insert into studienplanpunkt (title,studienfach_id) values("'.$currentstudienplanpunkt.'","'.$currentstudienfach_id.'")';	
+					echo $query."</br>";
 					mysql_query($query);
+					$currentstudienplanpunkt_id = mysql_insert_id();
 						
 					if($planpunktevorhanden){
 
@@ -100,11 +91,6 @@
 								$neighbour = $cell->next_sibling();
 								$lecturer = $neighbour;
 							}
-								if($cell->plaintext == 'Planpunkte Bachelor'){
-
-									$neighbour = $cell->next_sibling();
-									$subject = $neighbour;
-							}
 							if($cell->plaintext == 'Semesterstunden'){
 
 									$neighbour = $cell->next_sibling();
@@ -116,19 +102,14 @@
 									$language = $neighbour->plaintext;
 							}
 						}
-
-						//echo $currentkurs_id.'</br>';
-						//echo $currentkurs_type.'</br>';
-						//echo $currentkurs_title.'</br>';
-
-
-						/*
+						
 						if(isset($lecturer)){
 								
 							foreach($lecturer->find('a') as $l){
 
 								$currentlecturer_name = $l->plaintext;
-								$res = mysql_query('select id from lvleiter where name like "'.$currentlecturer_name.'"');
+								$query = 'select id from lvleiter where name like "'.$currentlecturer_name.'"';
+								$res = mysql_query($query);
 
 								if(mysql_num_rows($res) > 0){
 
@@ -137,48 +118,21 @@
 								}
 								else{
 
-									mysql_query('insert into lvleiter (name) values("'.$currentlecturer_name .'")');
+									$query = 'insert into lvleiter (name) values("'.$currentlecturer_name .'")';
+									echo $query."</br>";
+									mysql_query($query);
 									$currentlecturer_id = mysql_insert_id();
 								}
-								echo $currentlecturer_id.$currentkurs_id;
-								mysql_query('insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")');
-							}
+								$query = 'insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")';
+								echo $query."</br>";
+								mysql_query($query);
+															}
 						}
 						else{
 
-							$currentlecturer_name = 'Keine Angabe';
-							$res = mysql_query('select id from lvleiter where name like "'.$currentlecturer_name.'"');
-
-								if(mysql_num_rows($res) > 0){
-
-									$row = mysql_fetch_row($res);
-									$currentlecturer_id = $row[0];
-								}
-								else{
-
-									mysql_query('insert into lvleiter (name) values("'.$currentlecturer_name .'")');
-									$currentlecturer_id = mysql_insert_id();
-										
-								}
-								//echo $currentlecturer_id.$currentkurs_id;
-								mysql_query('insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")');
+							echo "!!!!!!KEIN LV LEITER</br>";
 						}
-						*/
-
-						if(isset($lecturer)){
-
-							foreach($lecturer->find('a') as $l){
-
-								$currentlecturer_name = $l->plaintext;
-								$query = 'insert into lvleiter (name) values("'.$currentlecturer_name.'")';
-								echo $query;
-								//mysql_query($query);
-								//$currentlecturer_id = mysql_insert_id();
-								$query = 'insert into lvleiter_kurs(lvleiter_id,kurs_id) values("'.$currentlecturer_id.'","'.$currentkurs_id.'")';
-								echo $query
-								//mysql_query($query);
-							}
-						}
+						
 
 						if(!isset($sst)){
 
@@ -189,12 +143,12 @@
 							$language = 'Keine Angabe';
 						}
 						
-						$query = 'insert into kurs(id,type,title,sst,language) values("'.$currentkurs_id.'","'.$currentkurs_type.'","'.$currentkurs_title.'","'.$sst.'","'.$language.'")'
-						echo $query;
-						//mysql_query($query);
+						$query = 'insert into kurs(id,type,title,sst,language) values("'.$currentkurs_id.'","'.$currentkurs_type.'","'.$currentkurs_title.'","'.$sst.'","'.$language.'")';
+						echo $query."</br>";
+						mysql_query($query);
 						$query = 'insert into studienplanpunkt_kurs (studienplanpunkt_id,kurs_id) values ("'.$currentstudienplanpunkt_id.'","'.$currentkurs_id.'")';
-						echo $query;
-						//mysql_query($query);
+						echo $query."</br>";
+						mysql_query($query);
 
 						$table3 = $spantext[0]->children(4);
 						$first = $table3->first_child();
@@ -209,15 +163,16 @@
 								$datetimes = makeDatetimes($cell->children(1)->plaintext,$cell->children(2)->plaintext);
 								$place = str_replace(' (Lageplan)','',$cell->children(3)->plaintext);
 								$place = str_replace(' ','',$place);
-								$query = 'insert into termine (weekday,start,end,place) values("'.$weekday.'","'.$datetimes[0].'","'.$datetimes[1].'","'.$place.'")';
-								echo $query;
-								//mysql_query($query);
-								//$currenttermin_id = mysql_insert_id();
-								$query = 'insert into kurs_termine (kurs_id,termine_id) values ("'.$currentkurs_id.'","'.$currenttermin_id.'")';
+								$query = 'insert into termine (weekday,start,end,place,kurs_id) values("'.$weekday.'","'.$datetimes[0].'","'.$datetimes[1].'","'.$place.'","'.$currentkurs_id.'")';
+								echo $query."</br>";
 								mysql_query($query);
+
+
+				
+							
 							}
 						}
-					}
+					}die();
 				}
 			}
 		}
