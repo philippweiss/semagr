@@ -1,5 +1,31 @@
 <?php
 
+function clearDatabase(){
+
+    $sql = "DROP TABLE `lvleiter_kurs`, `studienplanpunkt_kurs`, `kurs`, `lvleiter`, `studienfach`, `studienplanpunkt`, `studienrichtung`, `studienzweig`, `termine`, `uni`";
+    mysql_query($sql);
+    $sql = 'create table uni (id int(4) auto_increment primary key, title varchar(64));';
+    mysql_query($sql);
+    $sql = 'create table studienrichtung(id int(4) auto_increment primary key,  title varchar(64));';
+    mysql_query($sql);
+    $sql = 'create table studienzweig (id int(4) auto_increment primary key, title varchar(64));';
+    mysql_query($sql);
+    $sql = 'create table studienfach(id int(4) auto_increment primary key,  title varchar(64));';
+    mysql_query($sql);
+    $sql = 'create table studienplanpunkt(id int(4) auto_increment primary key, title varchar(128));';
+    mysql_query($sql);
+    $sql = 'create table kurs(id int(8) primary key, type varchar(32),  title varchar(128), sst int(2), language varchar(32));';
+    mysql_query($sql);
+    $sql = 'create table lvleiter(id int(8) auto_increment primary key, name varchar(128));';
+    mysql_query($sql);
+    $sql = 'create table termine(id int(8) auto_increment primary key,  weekday varchar(8), start datetime, end datetime, place varchar(128));';
+    mysql_query($sql);
+    $sql = 'create table studienplanpunkt_kurs( studienplanpunkt_id int(4), foreign key(studienplanpunkt_id) references studienplanpunkt(id), kurs_id int(8), foreign key(kurs_id) references kurs(id));';
+    mysql_query($sql);
+    $sql = 'create table lvleiter_kurs( lvleiter_id int(8), foreign key (lvleiter_id) references lvleiter(id), kurs_id int(8),  foreign key (kurs_id) references kurs(id));';
+    mysql_query($sql);
+}
+
 function dbconnect(){
     
     $con = mysql_connect('localhost','root','root');
