@@ -30,7 +30,7 @@
 	echo '</br>';
 
 
-	for($i = 0; $i <= sizeof($htmlarr); $i++) {
+	for($i = 0; $i < sizeof($htmlarr); $i++) {
 
 		$html = file_get_html($htmlarr[$i]);
 		echo "freshness".'</br>';
@@ -44,7 +44,7 @@
 			$currentstudienzweig_id = mysql_insert_id();
 		}
 		echo "anybody home?";
-	}break;
+	}
 	echo "yes, me!";
 /*
 			$link = $studienzweig->children(0)->href;
