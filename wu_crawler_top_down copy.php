@@ -31,7 +31,7 @@
 	print_r($htmlarr);
 
 	$i = 0;
-	foreach($htmlarr->find('li[class=sub1]') as $studienzweig){
+	for($htmlarr as $html->find('li[class=sub1]') as $studienzweig){
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
 			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id[$i].'")';
