@@ -74,15 +74,6 @@ create table studienplanpunkt_kurs(
 	foreign key(kurs_id) references kurs(id)
 );
 
-create table kurs_termine(
-
-	kurs_id int(8),
-	foreign key(kurs_id) references kurs(id),
-	termine_id int(8),
-	foreign key(termine_id) references termine(id)
-
-);
-
 create table lvleiter_kurs(
 
 	lvleiter_id int(8),
