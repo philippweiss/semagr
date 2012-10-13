@@ -13,24 +13,32 @@
 	$currentuni_id = mysql_insert_id();
 
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
+	$htmlarr = array();
+	$currentstudienrichtung_id = array();
 
+	$i = 0;
 	foreach($html->find('li[class=sub2]') as $studienrichtung){
 
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
 		$query = 'insert into studienrichtung (title,uni_id) values ("'.$currentstudienrichtung.'","'.$currentuni_id.'")';
 		echo $query."</br>";
 		mysql_query($query);
-		$currentstudienrichtung_id = mysql_insert_id();
+		$currentstudienrichtung_id[$i] = mysql_insert_id();
 		$link = $studienrichtung->children(0)->href;
-		$html = file_get_html('http://vvz.wu.ac.at'.$link);
+		$htmlarr[$i] = 'http://vvz.wu.ac.at'.$link;
+		$i++;
+	}
+	print_r($htmlarr);
 
-		foreach($html->find('li[class=sub1]') as $studienzweig){
+	$i = 0;
+	foreach($htmlarr->find('li[class=sub1]') as $studienzweig){
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
-			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id.'")';
+			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id[$i].'")';
 			echo $query."</br>";
 			mysql_query($query);
 			$currentstudienzweig_id = mysql_insert_id();
+	}/*
 			$link = $studienzweig->children(0)->href;
 			$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
@@ -176,8 +184,7 @@
 				}
 			}
 		}
-	}
-
+	*/
 	//end of crawling
 	echo "done biatch!";
 	
