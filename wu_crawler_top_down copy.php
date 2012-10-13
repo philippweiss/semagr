@@ -11,7 +11,6 @@
 	echo $query."</br>";
 	mysql_query($query);
 	$currentuni_id = mysql_insert_id();
-
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
 	$htmlarr = array();
 	$currentstudienrichtung_id = array();
@@ -28,17 +27,26 @@
 		$htmlarr[$i] = 'http://vvz.wu.ac.at'.$link;
 		$i++;
 	}
-	print_r($htmlarr);
+	echo '</br>';
 
-	$i = 0;
-	for($htmlarr as $html->find('li[class=sub1]') as $studienzweig){
+
+	for($i = 0; $i <= sizeof($htmlarr); $i++) {
+
+		$html = file_get_html($htmlarr[$i]);
+		echo "freshness".'</br>';
+
+		foreach($html->find('li[class=sub1]') as $studienzweig) {
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
 			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id[$i].'")';
 			echo $query."</br>";
 			mysql_query($query);
 			$currentstudienzweig_id = mysql_insert_id();
-	}/*
+		}
+		echo "anybody home?";
+	}break;
+	echo "yes, me!";
+/*
 			$link = $studienzweig->children(0)->href;
 			$html = file_get_html('http://vvz.wu.ac.at'.$link);
 
