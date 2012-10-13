@@ -1,22 +1,11 @@
 <?php
 
 function clearDatabase(){
-<<<<<<< HEAD
 
-    $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, termine";
-=======
     $sql = 'SET FOREIGN_KEY_CHECKS = 0;';
     mysql_query($sql);
     $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, kurs, lvleiter, studienfach, studienplanpunkt, studienrichtung, studienzweig, termine, uni";
->>>>>>> 3891b70455f90fa6880ee70fec7190064a4aa63e
     mysql_query($sql);
-    $sql = "DROP TABLE kurs, lvleiter, studienplanpunkt";
-    mysql_query($sql);
-    $sql = "DROP TABLE studienfach, studienzweig";
-    mysql_query($sql);
-    $sql = "DROP TABLE studienrichtung, uni";
-    mysql_query($sql);
-
     $sql = 'create table uni(id int(4) auto_increment primary key, title varchar(64));';
     mysql_query($sql);
     $sql = 'create table studienrichtung(id int(4) auto_increment primary key, title varchar(64), uni_id int(4), foreign key (uni_id) references uni(id));';

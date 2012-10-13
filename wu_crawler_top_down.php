@@ -1,6 +1,10 @@
 <?
-	ini_set('memory_limit', '8000M');
-	ini_set('max_execution_time', 0);
+
+
+
+	//ini_set('memory_limit', '1048576M');
+	//ini_set('max_execution_time', 0);
+	set_time_limit(0);
 	
 	include_once('simple_html_dom.php');
 	include('functions.php');
@@ -19,7 +23,7 @@
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
 		$query = 'insert into studienrichtung (title,uni_id) values ("'.$currentstudienrichtung.'","'.$currentuni_id.'")';
 		//echo $query."</br>";
-		mysql_query($query) or die('unable to insert studienrichtung');
+		mysql_query($query);
 		$currentstudienrichtung_id = mysql_insert_id();
 		$link = $studienrichtung->children(0)->href;
 		$html = file_get_html('http://vvz.wu.ac.at'.$link);
@@ -165,10 +169,7 @@
 								$place = str_replace(' ','',$place);
 								$query = 'insert into termine (weekday,start,end,place,kurs_id) values("'.$weekday.'","'.$datetimes[0].'","'.$datetimes[1].'","'.$place.'","'.$currentkurs_id.'")';
 								//echo $query."</br>";
-								mysql_query($query);
-
-
-				
+								mysql_query($query);			
 							
 							}
 						}
