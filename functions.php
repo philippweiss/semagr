@@ -1,8 +1,14 @@
 <?php
 
 function clearDatabase(){
+<<<<<<< HEAD
 
     $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, termine";
+=======
+    $sql = 'SET FOREIGN_KEY_CHECKS = 0;';
+    mysql_query($sql);
+    $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, kurs, lvleiter, studienfach, studienplanpunkt, studienrichtung, studienzweig, termine, uni";
+>>>>>>> 3891b70455f90fa6880ee70fec7190064a4aa63e
     mysql_query($sql);
     $sql = "DROP TABLE kurs, lvleiter, studienplanpunkt";
     mysql_query($sql);
@@ -31,13 +37,14 @@ function clearDatabase(){
     mysql_query($sql);
     $sql = 'create table lvleiter_kurs(lvleiter_id int(8), foreign key (lvleiter_id) references lvleiter(id), kurs_id int(8), foreign key (kurs_id) references kurs(id));';
     mysql_query($sql);
+
 }
 
 function dbconnect(){
     
     $con = mysql_connect('localhost','root','root');
     mysql_select_db('semagr');
-    mysql_query( "set names 'utf8'" );
+    mysql_query( "set names 'utf8'");
     
 }
 
