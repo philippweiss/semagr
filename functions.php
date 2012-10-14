@@ -2,13 +2,6 @@
 
 function clearDatabase(){
 
-<<<<<<< HEAD
-    $sql = 'SET FOREIGN_KEY_CHECKS = 0;';
-    mysql_query($sql);
-    $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, kurs, lvleiter, studienfach, studienplanpunkt, studienrichtung, studienzweig, termine, uni";
-=======
-    $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, termine";
->>>>>>> 155f344a07e60da0e2af7a6604d70c618f50aa75
     mysql_query($sql);
     $sql = 'create table uni(id int(4) auto_increment primary key, title varchar(64));';
     mysql_query($sql);

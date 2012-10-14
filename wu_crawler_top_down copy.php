@@ -11,7 +11,7 @@
 	echo $query."</br>";
 	mysql_query($query);
 	$currentuni_id = mysql_insert_id();
-	
+/*	
 	$htmlarr1 = array();
 	$htmlarr2 = array();
 	$currentstudienrichtung_id = array();
@@ -54,7 +54,7 @@
 		}echo sizeof($htmlstudfach);
 	}
 
-/*
+
 
 			foreach($html->find('li[class=sub2]') as $studienfach){
 
