@@ -3,6 +3,7 @@
 function clearDatabase(){
 
 
+
     $sql = 'SET FOREIGN_KEY_CHECKS = 0;';
     mysql_query($sql);
     $sql = "DROP TABLE lvleiter_kurs, studienplanpunkt_kurs, kurs, lvleiter, studienfach, studienplanpunkt, studienrichtung, studienzweig, termine, uni";

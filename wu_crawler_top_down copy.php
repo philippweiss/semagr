@@ -11,9 +11,13 @@
 	echo $query."</br>";
 	mysql_query($query);
 	$currentuni_id = mysql_insert_id();
-	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
-	$htmlarr = array();
+/*	
+	$htmlarr1 = array();
+	$htmlarr2 = array();
 	$currentstudienrichtung_id = array();
+	$htmlstudfach = array();
+
+	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
 
 	$i = 0;
 	foreach($html->find('li[class=sub2]') as $studienrichtung){
@@ -24,17 +28,18 @@
 		mysql_query($query);
 		$currentstudienrichtung_id[$i] = mysql_insert_id();
 		$link = $studienrichtung->children(0)->href;
-		$htmlarr[$i] = 'http://vvz.wu.ac.at'.$link;
+		$htmlarr1[$i] = 'http://vvz.wu.ac.at'.$link;
 		$i++;
 	}
 	echo '</br>';
 
+	$j = 0;
+	for($i = 0; $i < sizeof($htmlarr1); $i++) {
 
-	for($i = 0; $i < sizeof($htmlarr); $i++) {
+		$html = file_get_html($htmlarr1[$i]);
+		echo '</br>';
 
-		$html = file_get_html($htmlarr[$i]);
-		echo "freshness".'</br>';
-
+		
 		foreach($html->find('li[class=sub1]') as $studienzweig) {
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
@@ -42,13 +47,14 @@
 			echo $query."</br>";
 			mysql_query($query);
 			$currentstudienzweig_id = mysql_insert_id();
-		}
-		echo "anybody home?";
-	}
-	echo "yes, me!";
-/*
 			$link = $studienzweig->children(0)->href;
-			$html = file_get_html('http://vvz.wu.ac.at'.$link);
+			$htmlarr2[$i] = file_get_html('http://vvz.wu.ac.at'.$link);
+			$htmlstudfach[$j] = $htmlarr2[$i];
+			$j++;
+		}echo sizeof($htmlstudfach);
+	}
+
+
 
 			foreach($html->find('li[class=sub2]') as $studienfach){
 
@@ -71,7 +77,7 @@
 					$studienplanpunkte = $html->find('div[class=vvzh5]');
 					$planpunktevorhanden = false;
 				}
-
+/*
 				foreach($studienplanpunkte as $studienplanpunkt){
 
 					//echo $studienplanpunkt->plaintext.'</br>';
