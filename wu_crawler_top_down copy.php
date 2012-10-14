@@ -1,6 +1,6 @@
 <?
-	ini_set('memory_limit', '200M');
-	ini_set('max_execution_time', 300);
+	ini_set('memory_limit', '900M');
+	ini_set('max_execution_time', 0);
 	
 	include_once('simple_html_dom.php');
 	include('functions.php');
@@ -15,9 +15,12 @@
 	$htmlarr1 = array();
 	$htmlarr2 = array();
 	$htmlarr3 = array();
+	$htmlarr4 = array();
 	$currentstudienrichtung_id = array();
 	$currentstudienzweig_id = array();
 	$currentstudienfach_id = array();
+	$currentstudienplanpunkt_id = array();
+
 
 	$i = 0;
 
@@ -52,7 +55,7 @@
 		}
 	}
 
-
+	$j = 0;
 	for($i = 0; $i < sizeof($htmlarr2); $i++) {
 
 		$html = file_get_html($htmlarr2[$i]);
@@ -66,44 +69,46 @@
 			mysql_query($query);
 			$currentstudienfach_id[$i] = mysql_insert_id();
 			$link = $studienfach->children(0)->href;
-			$htmlarr3[$i] = 'http://vvz.wu.ac.at'.$link;
-			
-			/*
-			if($htmlarr3[$i]->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
-
-				$studienplanpunkte = $htmlnext->find('li[class=pfeilblaulink]');
-				$planpunktevorhanden = true;
-			}
-			else($htmlarr3[$i]->find('div[class=vvzh5]')){ //keine planpunkte vorhanden
-
-				$studienplanpunkte = $htmlnext->find('div[class=vvzh5]');
-				$planpunktevorhanden = false;
-			}
-			*/
-
-
+			$htmlarr3[$j] = 'http://vvz.wu.ac.at'.$link;
+			$j++;
 		}
 	}
 
+	$j = 0;
+	for($i = 0; $i < sizeof($htmlarr3); $i++) {
+
+		$html = file_get_html($htmlarr3[$j]);
+		echo '</br>';
+
+		if($html->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
+
+			foreach($html->find('li[class=pfeilblaulink]') as $studienplanpunkt){
+
+				$currentstudienplanpunkt = $studienplanpunkt->plaintext;
+				$query = 'insert into studienplanpunkt (title,studienfach_id) values("'.$currentstudienplanpunkt.'","'.$currentstudienfach_id[$i].'")';	
+				echo $query."</br>";
+				mysql_query($query);
+				/*$currentstudienplanpunkt_id[$i] = mysql_insert_id();*/
+				$link = $studienplanpunkt->children(0)->href;
+				$htmlarr4[$j] = 'http://vvz.wu.ac.at'.$link;
+				$j++;
+			}
+		}
+		else if($html->find('div[class=vvzh5]')){ //keine planpunkte vorhanden
+
+			echo "keine planpunkte vorhanden";
+
+			/*$studienplanpunkt = $html->find('div[class=vvzh5]');
+			$planpunktevorhanden = false;*/
+		}
+		else {
+
+			echo "can't find div[class=vvzh5]";}
+			echo $html;
+
+	}
+
 /*
-
-
-			
-
-				foreach($studienplanpunkte as $studienplanpunkt){
-
-					//echo $studienplanpunkt->plaintext.'</br>';
-					$currentstudienplanpunkt = $studienplanpunkt->plaintext;
-					$query = 'insert into studienplanpunkt (title,studienfach_id) values("'.$currentstudienplanpunkt.'","'.$currentstudienfach_id.'")';	
-					echo $query."</br>";
-					mysql_query($query);
-					$currentstudienplanpunkt_id = mysql_insert_id();
-						
-					if($planpunktevorhanden){
-
-						$link = $studienplanpunkt->children(0)->href;
-						$html = file_get_html('http://vvz.wu.ac.at'.$link);
-					}
 
 					foreach($html->find('td[class=vvzc1]') as $kurs){
 
@@ -210,9 +215,13 @@
 				}
 			}
 		}
-	*/
-	//end of crawling
-	echo "done biatch!";
+*/
+
+
+
+
+//end of crawling
+echo "done biatch!";
 	
 ?>
 
