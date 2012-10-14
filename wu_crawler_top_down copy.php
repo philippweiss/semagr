@@ -1,6 +1,6 @@
 <?
-	ini_set('memory_limit', '8000M');
-	ini_set('max_execution_time', 0);
+	ini_set('memory_limit', '200M');
+	ini_set('max_execution_time', 300);
 	
 	include_once('simple_html_dom.php');
 	include('functions.php');
@@ -11,15 +11,18 @@
 	echo $query."</br>";
 	mysql_query($query);
 	$currentuni_id = mysql_insert_id();
-/*	
+
 	$htmlarr1 = array();
 	$htmlarr2 = array();
+	$htmlarr3 = array();
 	$currentstudienrichtung_id = array();
-	$htmlstudfach = array();
+	$currentstudienzweig_id = array();
+	$currentstudienfach_id = array();
+
+	$i = 0;
 
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
 
-	$i = 0;
 	foreach($html->find('li[class=sub2]') as $studienrichtung){
 
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
@@ -30,54 +33,63 @@
 		$link = $studienrichtung->children(0)->href;
 		$htmlarr1[$i] = 'http://vvz.wu.ac.at'.$link;
 		$i++;
-	}
-	echo '</br>';
+	}echo '</br>';
 
-	$j = 0;
 	for($i = 0; $i < sizeof($htmlarr1); $i++) {
 
 		$html = file_get_html($htmlarr1[$i]);
 		echo '</br>';
 
-		
 		foreach($html->find('li[class=sub1]') as $studienzweig) {
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
 			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id[$i].'")';
 			echo $query."</br>";
 			mysql_query($query);
-			$currentstudienzweig_id = mysql_insert_id();
+			$currentstudienzweig_id[$i] = mysql_insert_id();
 			$link = $studienzweig->children(0)->href;
-			$htmlarr2[$i] = file_get_html('http://vvz.wu.ac.at'.$link);
-			$htmlstudfach[$j] = $htmlarr2[$i];
-			$j++;
-		}echo sizeof($htmlstudfach);
+			$htmlarr2[$i] = 'http://vvz.wu.ac.at'.$link;
+		}
 	}
 
 
+	for($i = 0; $i < sizeof($htmlarr2); $i++) {
 
-			foreach($html->find('li[class=sub2]') as $studienfach){
+		$html = file_get_html($htmlarr2[$i]);
+		echo '</br>';
+
+		foreach($html->find('li[class=sub2]') as $studienfach){
+
+			$currentstudienfach = $studienfach->children(0)->plaintext;
+			$query = 'insert into studienfach (title,studienzweig_id) values ("'.$currentstudienfach.'","'.$currentstudienzweig_id[$i].'")';
+			echo $query."</br>";
+			mysql_query($query);
+			$currentstudienfach_id[$i] = mysql_insert_id();
+			$link = $studienfach->children(0)->href;
+			$htmlarr3[$i] = 'http://vvz.wu.ac.at'.$link;
+			
+			/*
+			if($htmlarr3[$i]->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
+
+				$studienplanpunkte = $htmlnext->find('li[class=pfeilblaulink]');
+				$planpunktevorhanden = true;
+			}
+			else($htmlarr3[$i]->find('div[class=vvzh5]')){ //keine planpunkte vorhanden
+
+				$studienplanpunkte = $htmlnext->find('div[class=vvzh5]');
+				$planpunktevorhanden = false;
+			}
+			*/
 
 
-				$currentstudienfach = $studienfach->children(0)->plaintext;
-				$query = 'insert into studienfach (title,studienzweig_id) values ("'.$currentstudienfach.'","'.$currentstudienzweig_id.'")';
-				echo $query."</br>";
-				mysql_query($query);
-				$currentstudienfach_id = mysql_insert_id();
-				$link = $studienfach->children(0)->href;
-				$html = file_get_html('http://vvz.wu.ac.at'.$link);
+		}
+	}
 
-				if($html->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
-
-					$studienplanpunkte = $html->find('li[class=pfeilblaulink]');
-					$planpunktevorhanden = true;
-				}
-				else if($html->find('div[class=vvzh5]')){ //keine planpunkte vorhanden
-
-					$studienplanpunkte = $html->find('div[class=vvzh5]');
-					$planpunktevorhanden = false;
-				}
 /*
+
+
+			
+
 				foreach($studienplanpunkte as $studienplanpunkt){
 
 					//echo $studienplanpunkt->plaintext.'</br>';
