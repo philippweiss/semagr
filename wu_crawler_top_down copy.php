@@ -8,7 +8,7 @@
 	clearDatabase();
 	$uni = 'Wirtschaftsuniversität Wien';
 	$query = 'insert into uni (title) values ("'.$uni.'")';
-	echo $query."</br>";
+	//echo $query."</br>";
 	mysql_query($query);
 	$currentuni_id = mysql_insert_id();
 
@@ -27,33 +27,40 @@
 	$html = file_get_html('http://vvz.wu.ac.at/cgi-bin/vvz.pl?LV=3;L2=38107;L3=38079;S=12W;LANG=DE');
 
 	foreach($html->find('li[class=sub2]') as $studienrichtung){
-
+		
 		$currentstudienrichtung = $studienrichtung->children(0)->plaintext;
 		$query = 'insert into studienrichtung (title,uni_id) values ("'.$currentstudienrichtung.'","'.$currentuni_id.'")';
-		echo $query."</br>";
+		//echo $query."</br>";
 		mysql_query($query);
 		$currentstudienrichtung_id[$i] = mysql_insert_id();
 		$link = $studienrichtung->children(0)->href;
 		$htmlarr1[$i] = 'http://vvz.wu.ac.at'.$link;
 		$i++;
+		
 	}echo '</br>';
+
 
 	for($i = 0; $i < sizeof($htmlarr1); $i++) {
 
 		$html = file_get_html($htmlarr1[$i]);
 		echo '</br>';
 
+		echo "<b>$studienrichtung->plaintext</b>".'</br>';
+
 		foreach($html->find('li[class=sub1]') as $studienzweig) {
+
+			echo $studienzweig->plaintext.'</br>';
 
 			$currentstudienzweig = $studienzweig->children(0)->plaintext;
 			$query = 'insert into studienzweig (title,studienrichtung_id) values ("'.$currentstudienzweig.'","'.$currentstudienrichtung_id[$i].'")';
-			echo $query."</br>";
+			//echo $query."</br>";
 			mysql_query($query);
 			$currentstudienzweig_id[$i] = mysql_insert_id();
 			$link = $studienzweig->children(0)->href;
 			$htmlarr2[$i] = 'http://vvz.wu.ac.at'.$link;
 		}
 	}
+	
 
 	$j = 0;
 	for($i = 0; $i < sizeof($htmlarr2); $i++) {
@@ -73,12 +80,16 @@
 			$j++;
 		}
 	}
+	die();
 
 	$j = 0;
 	for($i = 0; $i < sizeof($htmlarr3); $i++) {
 
 		$html = file_get_html($htmlarr3[$j]);
 		echo '</br>';
+		if($i == 1){
+			echo $html;
+		}
 
 		if($html->find('li[class=pfeilblaulink]')){ //planpunkte vorhanden
 
@@ -103,8 +114,8 @@
 		}
 		else {
 
-			echo "can't find div[class=vvzh5]";}
-			echo $html;
+			//echo "can't find div[class=vvzh5]";
+		}
 
 	}
 
@@ -224,6 +235,3 @@
 echo "done biatch!";
 	
 ?>
-
-
-
