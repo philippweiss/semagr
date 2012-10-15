@@ -3,7 +3,7 @@
 
 	<header>
 
-		<title>slider</title>
+		<title>slider2</title>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>-->
@@ -14,13 +14,14 @@
 				#left {float:left; width:150px;}
 					#filter_button {height:40px; background-color:B8008A; color:white}
 					#filter_menu {height:40px; background-color:red; color:white}
-					#filter_tree {height:300px; background-color:grey; color:white}
-				#workbench {float:left; margin:0px; width:700px; height:340px; background-color:grey;color:white}
+					#filter_tree {height:300px; background-color:grey; color:white; padding:6px;}
+					#c_filter_tree {height:90%; background-color:white; color:black; overflow:auto; border-radius: 10px; padding:5px;}
+				#workbench {float:left; margin:0px; width:700px; height:340px; background-color:grey;color:white; padding:5px;}
 				#right {float:left; width:150px; height:360px; background-color:#333333}
 
 			.shadowin {
-   						-moz-box-shadow:	inset 0 0 10px #000000;
-   						-webkit-box-shadow:	inset 0 0 10px #000000;
+   						-moz-box-shadow:	inset 0 0 20px #000000;
+   						-webkit-box-shadow:	inset 0 0 20px #000000;
    						box-shadow:			inset 0 0 20px #000000;
 						}
 			.shadowout {
@@ -37,7 +38,7 @@
 
 	</header>
 	<body>
-
+<!--  -->
 		<div id='wrapper'>
 
 			<div id='left', class="shadowout">
@@ -52,10 +53,81 @@
 
 				<div id="filter_tree">
 					netclass
+
+					<div id="c_filter_tree", class="shadowin">
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+						hier steht etwas wichtiges.<br>
+					</div>
+
 				</div>
 			</div>
 			<div id="workbench", class="shadowout">
 				workbench
+
+				<div id="c_filter_tree", class="shadowin">
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+					hier steht etwas wichtiges.<br>
+				</div>
+
 			</div>
 			<div id='right'>
 				right
